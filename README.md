@@ -1,1 +1,1 @@
-# ColorBlend
+ColorBlend is a comprehensive library designed for easy manipulation and conversion among different color representations including RGB, HEX, and HSL. This tool is perfect for developers and designers alike, offering intuitive methods for working with color structures, enabling seamless transitions between color spaces with accuracy and efficiency. Whether you're building web interfaces, designing digital art, or simply exploring the vast world of colors, ColorBlend equips you with the functionality to bring your projects to life.
