@@ -34,7 +34,7 @@ impl Color {
         let l = (max + min) / 2.0;
 
         if max == min {
-            (0.0, 0.0, l) 
+            (0.0, 0.0, l)
         } else {
             let d = max - min;
             let s = if l > 0.5 { d / (2.0 - max - min) } else { d / (max + min) };
@@ -55,14 +55,28 @@ impl Color {
         println!("HEX: {}", self.hex);
         println!("HSL: ({:.0}, {:.0}%, {:.0}%)", self.hsl.0, self.hsl.1 * 100.0, self.hsl.2 * 100.0);
     }
+
+    // New blend function
+    fn blend(&self, other: &Color) -> Color {
+        let new_red = (self.red as u16 + other.red as u16) / 2 as u8;
+        let new_green = (self.green as u16 + other.green as u16) / 2 as u8;
+        let new_blue = (self.blue as u16 + other.blue as u16) / 2 as u8;
+        Color::from_rgb(new_red, new_green, new_blue)
+    }
 }
 
 fn main() {
-    let default_red = env::var("DEFAULT_RED").unwrap_or("0".into()).parse().unwrap_or(0);
-    let default_green = env::var("DEFAULT_GREEN").unwrap_or("0".into()).parse().unwrap_or(0);
-    let default_blue = env::var("DEFAULT_BLUE").unwrap_or("0".into()).parse().unwrap_or(0);
+    let default_red: u8 = env::var("DEFAULT_RED").unwrap_or_else(|_| "0".to_string()).parse().expect("Invalid value for DEFAULT_RED");
+    let default_green: u8 = env::var("DEFAULT_GREEN").unwrap_or_else(|_| "0".to_string()).parse().expect("Invalid value for DEFAULT_GREEN");
+    let default_blue: u8 = env::var("DEFAULT_BLUE").unwrap_or_else(|_| "0".to_string()).parse().expect("Invalid value for DEFAULT_BLUE");
 
     let color = Color::from_rgb(default_red, default_green, default_blue);
 
     color.display();
+
+    // Example usage of blend function - blending with a hardcoded color
+    let other_color = Color::from_rgb(255, 0, 0); // A bright red for blending
+    let blended_color = color.blend(&other_color);
+    println!("After blending:");
+    blended_color.display();
 }
