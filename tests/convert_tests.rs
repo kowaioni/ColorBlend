@@ -3,38 +3,38 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_color_conversion() {
-        let rgb_color = RGB { r: 255, g: 255, b: 255 };
+    fn test_rgb_to_hex_conversion() {
+        let white_rgb = RGB { r: 255, g: 255, b: 255 };
 
-        let hex_color = convert::rgb_to_hex(&rgb_color);
+        let white_hex = convert::rgb_to_hex(&white_rgb);
 
-        assert_eq!(hex_color, "#FFFFFF");
+        assert_eq!(white_hex, "#FFFFFF");
     }
 
     #[test]
-    fn test_color_blending() {
-        let color1 = RGB { r: 255, g: 0, b: 0 };
-        let color2 = RGB { r: 0, g: 0, b: 255 };
+    fn test_rgb_color_blending() {
+        let red_rgb = RGB { r: 255, g: 0, b: 0 };
+        let blue_rgb = RGB { r: 0, g: 0, b: 255 };
 
-        let blended_color = convert::blend_rgb_colors(&color1, &color2, 0.5);
+        let blended_purple_rgb = convert::blend_rgb_colors(&red_rgb, &blue_rgb, 0.5);
 
-        assert_eq!(blended_color, RGB { r: 128, g: 0, b: 128 });
+        assert_eq!(blended_purple_rgb, RGB { r: 128, g: 0, b: 128 });
     }
 
     #[test]
-    fn test_color_conversion_with_env() {
-        let env_setting = std::env::var("COLOR_MODE").unwrap_or_else(|_| "normal".to_string());
+    fn test_hex_conversion_with_environment_setting() {
+        let color_mode_setting = std::env::var("COLOR_MODE").unwrap_or_else(|_| "normal".to_string());
 
-        if env_setting == "special" {
-            let special_rgb_color = RGB { r: 64, g: 64, b: 64 };
+        if color_mode_setting == "special" {
+            let special_gray_rgb = RGB { r: 64, g: 64, b: 64 };
 
-            let special_hex_color = convert::special_rgb_to_hex(&special_rgb_color);
+            let special_gray_hex = convert::special_rgb_to_hex(&special_gray_rgb);
 
-            assert_eq!(special_hex_color, "#404040");
+            assert_eq!(special_gray_hex, "#404040");
         } else {
-            let rgb_color = RGB { r: 255, g: 255, b: 255 };
-            let hex_color = convert::rgb_to_hex(&rgb_color);
-            assert_eq!(hex_color, "#FFFFFF");
+            let default_white_rgb = RGB { r: 255, g: 255, b: 255 };
+            let default_white_hex = convert::rgb_to_hex(&default_white_rgb);
+            assert_eq!(default_white_hex, "#FFFFFF");
         }
     }
 }
